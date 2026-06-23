@@ -45,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
 
       # 不提交 package-lock.json 时不能使用 npm ci。
       # npm install --no-package-lock 会根据 package.json 安装依赖，并避免在 CI 中生成 lockfile。
@@ -83,3 +83,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # 只有 deploy-pages 成功后才会执行到这里。
+      # 在日志和 GitHub Actions notice 中展示最终访问地址，方便发布后直接点击查看。
+      - name: Show Pages URL
+        run: |
+          echo "文档站点已发布到："
+          echo "https://micro-scaff.github.io/"
+          echo "::notice title=文档访问地址::https://micro-scaff.github.io/"
