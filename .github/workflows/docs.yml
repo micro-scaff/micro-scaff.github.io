@@ -34,22 +34,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 拉取仓库代码，后续 npm ci 和 docs:build 都基于当前 main 提交执行。
+      # 拉取仓库代码，后续依赖安装和 docs:build 都基于当前 main 提交执行。
       - name: Checkout
         uses: actions/checkout@v6
 
       # 安装 Node.js 运行时。
-      # node-version: 22 使用当前稳定的 Node.js 版本；
-      # cache: npm 会复用 npm 缓存，加快后续构建速度。
+      # node-version: 22 使用当前稳定的 Node.js 版本。
+      # 这里不启用 cache: npm，因为 setup-node 的 npm 缓存需要 package-lock.json、
+      # npm-shrinkwrap.json 或 yarn.lock；本项目选择不提交 package-lock.json。
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
 
-      # 使用 package-lock.json 做可重复安装，保证 CI 和本地依赖版本一致。
+      # 不提交 package-lock.json 时不能使用 npm ci。
+      # npm install --no-package-lock 会根据 package.json 安装依赖，并避免在 CI 中生成 lockfile。
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-package-lock
 
       # 执行 package.json 中的 docs:build。
       # 当前脚本是 vitepress build，默认输出目录为 .vitepress/dist。
