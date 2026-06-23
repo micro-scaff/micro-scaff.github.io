@@ -1,0 +1,84 @@
+# GitHub: https://docs.github.com/zh
+# GitHub Pages: https://docs.github.com/zh/pages
+# GitHub Actions: https://docs.github.com/zh/actions
+
+name: Docs
+
+# 触发条件：
+# - 每次 main 分支收到新的 push 时自动构建并部署文档站点
+# - workflow_dispatch 允许在 GitHub Actions 页面手动触发一次部署
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# GitHub Pages 官方部署流程需要这些最小权限：
+# - contents: read 用于读取仓库代码
+# - pages: write 用于发布 GitHub Pages artifact
+# - id-token: write 用于 OpenID Connect 身份校验，deploy-pages 需要它完成部署
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只保留一个 Pages 部署队列。
+# cancel-in-progress: false 表示如果已有部署正在进行，新任务会排队等待，
+# 避免中断正在发布的站点。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # build 负责安装依赖、执行 VitePress 构建，并把静态产物上传为 Pages artifact。
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取仓库代码，后续 npm ci 和 docs:build 都基于当前 main 提交执行。
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # 安装 Node.js 运行时。
+      # node-version: 22 使用当前稳定的 Node.js 版本；
+      # cache: npm 会复用 npm 缓存，加快后续构建速度。
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      # 使用 package-lock.json 做可重复安装，保证 CI 和本地依赖版本一致。
+      - name: Install dependencies
+        run: npm ci
+
+      # 执行 package.json 中的 docs:build。
+      # 当前脚本是 vitepress build，默认输出目录为 .vitepress/dist。
+      - name: Build docs
+        run: npm run docs:build
+
+      # 初始化 GitHub Pages 部署环境，并收集 Pages 所需的站点元信息。
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 上传 VitePress 构建产物，后续 deploy job 会发布这个 artifact。
+      # 这里必须指向静态文件输出目录，而不是整个仓库。
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .vitepress/dist
+
+  # deploy 只负责发布 build job 上传的 Pages artifact。
+  # needs: build 确保只有构建和上传产物成功后才会开始部署。
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      # github-pages 是 GitHub Pages 默认环境名。
+      # url 会显示在 Actions 运行结果和部署环境中，方便直接打开线上站点。
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # 发布 Pages artifact。成功后站点会通过 https://micro-scaff.github.io/ 访问。
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
