@@ -4,6 +4,7 @@
   "description": "Docs",
   "scripts": {
     "update:packages": "bash scripts/update-packages.sh",
+    "init": "git submodule update --init --recursive",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
