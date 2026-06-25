@@ -1,7 +1,3 @@
 [submodule "packages/micro-tools"]
 	path = packages/micro-tools
 	url = https://github.com/micro-scaff/micro-tools.git
-
-[submodule "packages/template-vue-mobile-tdesign"]
-	path = packages/template-vue-mobile-tdesign
-	url = https://github.com/micro-scaff/template-vue-mobile-tdesign.git
