@@ -1,6 +1,7 @@
 {
   "name": "micro-scaff.github.io",
   "version": "1.0.0",
+  "type": "module",
   "description": "Docs",
   "scripts": {
     "copy:md": "node ./scripts/copy-markdown-files.js",

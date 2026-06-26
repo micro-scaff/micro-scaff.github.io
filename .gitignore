@@ -8,3 +8,4 @@ pnpm-debug.log*
 pnpm-lock.yaml
 /packages/**
 .vitepress/**
+/src/**
