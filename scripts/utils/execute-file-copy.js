@@ -7,7 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-export default function executeFileCopy() {
-  const outputDir = path.resolve(__dirname, `../../packages/micro-tools/`);
+export default function executeFileCopy(files) {
+  const outputDir = path.resolve(__dirname, `../../`);
   console.log(outputDir, "outputDir");
+
+  
 }
