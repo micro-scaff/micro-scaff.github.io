@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Docs",
   "scripts": {
+    "copy:md": "node ./scripts/copy-markdown-files.js",
     "update:packages": "bash scripts/update-packages.sh",
     "boot": "git submodule update --init --recursive && npm i",
     "docs:dev": "vitepress dev",
