@@ -5,9 +5,10 @@
  */
 const copyConfigs = [
   {
-    outDir: "",
+    outDir: "src/micro-tools",
     entry: "packages/micro-tools",
     ignore: [],
+    file: /^packages-/
   },
 ];
 
