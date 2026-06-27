@@ -10,7 +10,7 @@ export default defineConfig({
       {
         rel: "icon",
         type: "image/svg+xml",
-        href: "/micro-tools/favicon.svg",
+        href: "/favicon.svg",
       },
     ],
     [
