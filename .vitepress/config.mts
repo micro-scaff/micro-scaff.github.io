@@ -5,13 +5,15 @@ import {
 } from "vitepress";
 
 import {
-  menuMicroTools
+  menuMicroTools,
+  menuLearn
 } from "./menu";
 
 // https://vitepress.dev/reference/site-config
 const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   const dev = await menuMicroTools();
-  
+  const learn = await menuLearn();
+
   const nav: DefaultTheme.NavItem[] = [];
   const sidebar: DefaultTheme.Sidebar = {};
 
@@ -22,6 +24,16 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
 
     if (activeMatch) {
       sidebar[activeMatch] = dev.menu;
+    }
+  }
+
+  if (learn) {
+    const activeMatch = learn.nav.activeMatch;
+
+    nav.push(learn.nav);
+
+    if (activeMatch) {
+      sidebar[activeMatch] = learn.menu;
     }
   }
 
