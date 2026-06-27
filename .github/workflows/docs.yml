@@ -50,7 +50,7 @@ jobs:
       # 不提交 package-lock.json 时不能使用 npm ci。
       # npm install --no-package-lock 会根据 package.json 安装依赖，并避免在 CI 中生成 lockfile。
       - name: Install dependencies
-        run: npm install --no-package-lock
+        run: npm run boot
 
       # 执行 package.json 中的 docs:build。
       # 当前脚本是 vitepress build，默认输出目录为 .vitepress/dist。
