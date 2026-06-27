@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Docs",
   "scripts": {
-    "copy:md": "node ./scripts/copy-markdown-files.js",
+    "copy:md": "rm -fr src && node ./scripts/copy-markdown-files.js",
     "update:packages": "bash scripts/update-packages.sh",
     "boot": "git submodule update --init --recursive && npm i",
     "docs:dev": "vitepress dev",
