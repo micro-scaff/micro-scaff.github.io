@@ -4,8 +4,10 @@ import {
   DefaultTheme
 } from "vitepress";
 
-const microToolsDir = path.resolve(__dirname, "../../src/micro-tools");
-const microToolsBase = "/src/micro-tools";
+const microToolsRoot = "src/micro-tools";
+
+const microToolsDir = path.resolve(__dirname, "../..", microToolsRoot);
+const microToolsBase = `/${microToolsRoot}`;
 
 /**
  * micro-tools 菜单规则：
