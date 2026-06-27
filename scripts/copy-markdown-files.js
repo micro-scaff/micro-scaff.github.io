@@ -10,6 +10,7 @@
  * copyFiles:
  * - 不传或 false：使用包 README 模式。
  *   只复制包目录中的 README.md，并使用 package.json.name 生成输出文件名。
+ *   如果包目录在二级目录下，会保留父目录，例如 packages-dev/eslint-config -> packages-dev/eslint-config.md。
  * - true：使用普通文件模式。
  *   不读取 package.json，不重命名文件，直接按原文件名复制，并保留相对目录结构。
  *
