@@ -1,12 +1,14 @@
 {
   "name": "micro-scaff.github.io",
   "version": "1.0.0",
+  "type": "module",
   "description": "Docs",
   "scripts": {
+    "copy:md": "rm -fr src && node ./scripts/copy-markdown-files.js",
     "update:packages": "bash scripts/update-packages.sh",
-    "boot": "git submodule update --init --recursive && npm i",
+    "boot": "rm -fr packages/ && git submodule update --init --recursive && npm i && npm run update:packages",
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "docs:build": "npm run copy:md && vitepress build",
     "docs:preview": "vitepress preview"
   },
   "keywords": [],
