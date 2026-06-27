@@ -98,9 +98,28 @@ update_package() {
   echo "完成 ${path}：已更新 ${branch}，并禁用 push。"
 }
 
+commit_and_push_updates() {
+  local message="update packages"
+
+  # 只暂存 packages 指针和 .gitmodules 的变化，避免把无关文件一起提交。
+  git add packages .gitmodules
+
+  if git diff --cached --quiet; then
+    echo "没有 packages 更新需要提交。"
+    return
+  fi
+
+  git commit -m "${message}"
+  git push origin HEAD
+
+  echo "已提交并推送：${message}"
+}
+
 # 从 .gitmodules 动态读取所有 submodule path，不需要在脚本里硬编码仓库列表。
 while read -r key path; do
   update_package "${key}" "${path}"
 done < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$')
 
 echo "packages 更新完成。"
+
+commit_and_push_updates
