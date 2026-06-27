@@ -50,6 +50,11 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   return defineConfig({
     title: "Micro Scaff",
     description: "Micro Scaff",
+    ignoreDeadLinks: [
+      "./LICENSE",
+      "./index",
+      /^http:\/\/localhost(?::\d+)?/
+    ],
     head: [
       [
         "link",
