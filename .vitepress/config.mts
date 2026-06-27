@@ -9,33 +9,43 @@ import {
   menuLearn
 } from "./menu";
 
+type MenuRules = {
+  nav: DefaultTheme.NavItemWithLink;
+  menu: DefaultTheme.SidebarItem[];
+};
+
+function applyMenuRules(
+  menuRules: Array<MenuRules | undefined>,
+  nav: DefaultTheme.NavItem[],
+  sidebar: DefaultTheme.SidebarMulti
+): void {
+  menuRules.forEach(item => {
+    if (!item) {
+      return;
+    }
+
+    const activeMatch = item.nav.activeMatch;
+
+    nav.push(item.nav);
+
+    if (activeMatch) {
+      sidebar[activeMatch] = item.menu;
+    }
+  });
+}
+
 // https://vitepress.dev/reference/site-config
 const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   const dev = await menuMicroTools();
   const learn = await menuLearn();
 
   const nav: DefaultTheme.NavItem[] = [];
-  const sidebar: DefaultTheme.Sidebar = {};
+  const sidebar: DefaultTheme.SidebarMulti = {};
 
-  if (dev) {
-    const activeMatch = dev.nav.activeMatch;
-
-    nav.push(dev.nav);
-
-    if (activeMatch) {
-      sidebar[activeMatch] = dev.menu;
-    }
-  }
-
-  if (learn) {
-    const activeMatch = learn.nav.activeMatch;
-
-    nav.push(learn.nav);
-
-    if (activeMatch) {
-      sidebar[activeMatch] = learn.menu;
-    }
-  }
+  applyMenuRules([
+    dev,
+    learn
+  ], nav, sidebar);
 
   return defineConfig({
     title: "Micro Scaff",
