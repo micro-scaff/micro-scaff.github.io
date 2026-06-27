@@ -101,6 +101,12 @@ update_package() {
 commit_and_push_updates() {
   local message="update packages"
 
+  # CI 流水线中没有必要提交和推送，且通常没有配置 git user.name / user.email。
+  if [ "${CI:-}" = "true" ]; then
+    echo "检测到 CI 环境，跳过自动提交和推送。"
+    return
+  fi
+
   # 只暂存 packages 指针和 .gitmodules 的变化，避免把无关文件一起提交。
   git add packages .gitmodules
 
