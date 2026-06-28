@@ -8,10 +8,17 @@
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
-  --vp-c-brand-1: var(--vp-c-indigo-1);
-  --vp-c-brand-2: var(--vp-c-indigo-2);
-  --vp-c-brand-3: var(--vp-c-indigo-3);
-  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+
+  /* 取自图片的蓝天、草地、小花和阳光色。 */
+  --vp-c-sky-1: #147ed0;
+  --vp-c-sky-2: #26a8f2;
+  --vp-c-grass-1: #6fbb39;
+  --vp-c-flower-1: #f3a9c9;
+  --vp-c-sun-1: #ffd76a;
+  --vp-c-brand-1: var(--vp-c-sky-1);
+  --vp-c-brand-2: var(--vp-c-sky-2);
+  --vp-c-brand-3: var(--vp-c-grass-1);
+  --vp-c-brand-soft: rgb(38 168 242 / 16%);
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
   --vp-c-tip-3: var(--vp-c-brand-3);
@@ -34,10 +41,10 @@
 :root {
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-bg: var(--vp-c-brand-2);
   --vp-button-brand-hover-border: transparent;
   --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-3);
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
@@ -50,8 +57,18 @@
 /* stylelint-disable-next-line no-duplicate-selectors */
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #bd34fe 30%, #41d1ff);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    var(--vp-c-sky-2) 18%,
+    var(--vp-c-grass-1) 58%,
+    var(--vp-c-flower-1) 100%
+  );
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    var(--vp-c-grass-1) 26%,
+    var(--vp-c-sky-2) 58%,
+    var(--vp-c-sun-1) 100%
+  );
   --vp-home-hero-image-filter: blur(44px);
 }
 

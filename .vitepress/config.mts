@@ -68,7 +68,7 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
         "meta",
         {
           name: "theme-color",
-          content: "#5f67ee",
+          content: "#26a8f2",
         },
       ],
       [
