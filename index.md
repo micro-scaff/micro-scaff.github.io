@@ -9,10 +9,10 @@ hero:
   actions:
     - theme: brand
       text: 🚀 Micro Tools
-      link: /src/micro-tools/
+      link: /src/micro-tools/components.md
     - theme: alt
       text: 📚 Learn
-      link: /src/learn/
+      link: /src/learn/纯函数.md
 
 features:
   - title: 🛠 Micro Tools
@@ -36,7 +36,7 @@ footer: |
 
 <!-- markdownlint-disable MD041 MD012 MD033 -->
 
-<div style="margin: 40px 0; padding: 30px; border-radius: 18px; background: linear-gradient(135deg, rgba(38, 168, 242, 0.14), rgba(111, 187, 57, 0.14)); border: 1px solid rgba(38, 168, 242, 0.2);">
+<div class="home-intro" style="margin: 40px 0; padding: 30px; border-radius: 18px; background: linear-gradient(135deg, rgba(38, 168, 242, 0.14), rgba(111, 187, 57, 0.14)); border: 1px solid rgba(38, 168, 242, 0.2);">
   <div style="font-size: 1.35em; font-weight: 700; margin-bottom: 10px;">Micro Scaff 是什么？</div>
   <div style="line-height: 1.9; color: var(--vp-c-text-2);">
     这里不是单一项目文档，而是一个逐步扩展的个人工程知识库。它会把前端工具、项目模板、学习笔记、Golang 服务端、扩展能力和 AI Agent 实践放在同一个入口里，方便后续查找、复用和继续补充。
@@ -45,32 +45,32 @@ footer: |
 
 ## 内容版图
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 24px 0 36px;">
-  <div style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #26a8f2 0%, #147ed0 100%); color: white; box-shadow: 0 12px 28px rgba(38, 168, 242, 0.22);">
+<div class="home-map" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 24px 0 36px;">
+  <div class="home-map-card" style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #26a8f2 0%, #147ed0 100%); color: white; box-shadow: 0 12px 28px rgba(38, 168, 242, 0.22);">
     <div style="font-size: 2em; font-weight: 800;">01</div>
     <div style="font-weight: 700; margin: 8px 0;">工具与组件</div>
     <div style="opacity: 0.9; line-height: 1.7;">micro-tools 中的工具函数、组件、请求库和工程配置。</div>
   </div>
 
-  <div style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #6fbb39 0%, #4e9b2b 100%); color: white; box-shadow: 0 12px 28px rgba(111, 187, 57, 0.22);">
+  <div class="home-map-card" style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #6fbb39 0%, #4e9b2b 100%); color: white; box-shadow: 0 12px 28px rgba(111, 187, 57, 0.22);">
     <div style="font-size: 2em; font-weight: 800;">02</div>
     <div style="font-weight: 700; margin: 8px 0;">项目脚手架</div>
     <div style="opacity: 0.9; line-height: 1.7;">基于已有工具封装项目基础搭建方案，沉淀启动模板。</div>
   </div>
 
-  <div style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #ffd76a 0%, #f0a83a 100%); color: #3a2a12; box-shadow: 0 12px 28px rgba(255, 215, 106, 0.22);">
+  <div class="home-map-card" style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #ffd76a 0%, #f0a83a 100%); color: #3a2a12; box-shadow: 0 12px 28px rgba(255, 215, 106, 0.22);">
     <div style="font-size: 2em; font-weight: 800;">03</div>
     <div style="font-weight: 700; margin: 8px 0;">服务端实践</div>
     <div style="opacity: 0.88; line-height: 1.7;">补充 Golang 服务端、接口、数据层和部署相关经验。</div>
   </div>
 
-  <div style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #f3a9c9 0%, #d34a36 100%); color: white; box-shadow: 0 12px 28px rgba(243, 169, 201, 0.22);">
+  <div class="home-map-card" style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #f3a9c9 0%, #d34a36 100%); color: white; box-shadow: 0 12px 28px rgba(243, 169, 201, 0.22);">
     <div style="font-size: 2em; font-weight: 800;">04</div>
     <div style="font-weight: 700; margin: 8px 0;">扩展能力</div>
     <div style="opacity: 0.9; line-height: 1.7;">插件化、自动化、跨端集成和更多可复用的能力封装。</div>
   </div>
 
-  <div style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #2f3548 0%, #26a8f2 100%); color: white; box-shadow: 0 12px 28px rgba(47, 53, 72, 0.22);">
+  <div class="home-map-card" style="padding: 22px; border-radius: 14px; background: linear-gradient(135deg, #2f3548 0%, #26a8f2 100%); color: white; box-shadow: 0 12px 28px rgba(47, 53, 72, 0.22);">
     <div style="font-size: 2em; font-weight: 800;">05</div>
     <div style="font-weight: 700; margin: 8px 0;">AI Agent</div>
     <div style="opacity: 0.9; line-height: 1.7;">沉淀 Agent 工作流、工具调用、自动化协作和智能研发能力。</div>

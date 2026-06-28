@@ -35,7 +35,6 @@ const copyConfigs = [
     outDir: "src/learn",
     entry: "packages/learn",
     copyFiles: true,
-    ignore: [],
     file: [/\.md$/, /^images\//]
   }
 ];
