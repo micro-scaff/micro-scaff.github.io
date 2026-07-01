@@ -13,8 +13,9 @@ function normalizePath(filePath) {
  * @param {string} outputDir 输出目录的绝对路径
  * @param {string | RegExp | Array<string | RegExp> | undefined} file 文件匹配规则，会匹配文件名和相对路径
  * @param {Array<string | RegExp>} ignore 忽略规则列表，会匹配文件名和相对路径
+ * @param {string | undefined} targetFileName 输出文件名，适用于单文件重命名
  */
-export function copyMatchedFiles(entryDir, outputDir, file, ignore = []) {
+export function copyMatchedFiles(entryDir, outputDir, file, ignore = [], targetFileName) {
   function walk(currentDir) {
     fs.readdirSync(currentDir).forEach(name => {
       const sourcePath = path.join(currentDir, name);
@@ -38,7 +39,10 @@ export function copyMatchedFiles(entryDir, outputDir, file, ignore = []) {
         return;
       }
 
-      const targetFilePath = path.join(outputDir, relativePath);
+      const targetRelativePath = targetFileName
+        ? path.join(path.dirname(relativePath), targetFileName)
+        : relativePath;
+      const targetFilePath = path.join(outputDir, targetRelativePath);
 
       fs.mkdirSync(path.dirname(targetFilePath), {
         recursive: true
@@ -49,4 +53,3 @@ export function copyMatchedFiles(entryDir, outputDir, file, ignore = []) {
 
   walk(entryDir);
 }
-

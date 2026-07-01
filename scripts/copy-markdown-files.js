@@ -23,6 +23,9 @@
  * ignore:
  * - 忽略规则，优先级高于 file。
  * - 普通文件模式下同样会匹配文件名和相对路径。
+ *
+ * targetFileName:
+ * - 普通文件模式下可选，用于把单个复制文件输出为指定文件名。
  */
 const copyConfigs = [
   {
@@ -30,6 +33,13 @@ const copyConfigs = [
     entry: "packages/micro-tools",
     ignore: ["packages-demo", "packages-docs"],
     file: /^packages-/
+  },
+  {
+    outDir: "src/micro-tools/packages-agent",
+    entry: "packages/micro-tools/packages-agent/skills",
+    copyFiles: true,
+    file: "README.md",
+    targetFileName: "skills.md"
   },
   {
     outDir: "src/learn",

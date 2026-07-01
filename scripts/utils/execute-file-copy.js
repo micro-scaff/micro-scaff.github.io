@@ -18,6 +18,7 @@ import { copyEntryReadme, copyPackageReadmes } from "./execute-file-copy-package
  *    用于 packages/learn 这类普通文档目录。
  *    脚本会递归扫描 entry 下的文件，不读取 package.json，
  *    不重命名文件，并保留源文件相对 entry 的目录结构。
+ *    如果传入 targetFileName，会把命中的文件输出为指定文件名。
  *
  * 复制规则：
  * 1. 默认包 README 模式始终只复制 README.md。
@@ -35,6 +36,7 @@ import { copyEntryReadme, copyPackageReadmes } from "./execute-file-copy-package
  *   copyFiles?: boolean;
  *   file?: string | RegExp | Array<string | RegExp>;
  *   ignore?: Array<string | RegExp>;
+ *   targetFileName?: string;
  * }>} files 复制配置列表
  */
 export default function executeFileCopy(files) {
@@ -43,7 +45,8 @@ export default function executeFileCopy(files) {
     entry,
     copyFiles = false,
     file,
-    ignore = []
+    ignore = [],
+    targetFileName
   }) => {
     const outputDir = path.resolve(projectRoot, outDir);
     const entryDir = path.resolve(projectRoot, entry);
@@ -58,7 +61,7 @@ export default function executeFileCopy(files) {
     });
 
     if (copyFiles) {
-      copyMatchedFiles(entryDir, outputDir, file, ignore);
+      copyMatchedFiles(entryDir, outputDir, file, ignore, targetFileName);
       return;
     }
 
