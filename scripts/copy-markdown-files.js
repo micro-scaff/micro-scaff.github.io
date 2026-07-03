@@ -46,6 +46,12 @@ const copyConfigs = [
     entry: "packages/learn",
     copyFiles: true,
     file: [/\.md$/, /^images\//]
+  },
+  {
+    outDir: "src/interview-files",
+    entry: "packages/interview-files",
+    copyFiles: true,
+    file: [/\.md$/, /^images\//]
   }
 ];
 
