@@ -4,3 +4,6 @@
 [submodule "packages/learn"]
 	path = packages/learn
 	url = https://github.com/Not-have/learn.git
+[submodule "packages/interview-files"]
+	path = packages/interview-files
+	url = https://github.com/liyangting/interview-files.git
