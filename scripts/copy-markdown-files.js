@@ -51,7 +51,7 @@ const copyConfigs = [
     outDir: "src/interview-files",
     entry: "packages/interview-files",
     copyFiles: true,
-    file: [/\.md$/, /^images\//]
+    file: [/\.md$/, /^assets\//]
   }
 ];
 
