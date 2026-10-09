@@ -53,6 +53,9 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   return defineConfig({
     title: "Micro Scaff",
     description: "Micro Scaff",
+    // packages 中的外部仓库只作为文档源，实际页面由 copy:md 复制到 src。
+    // 排除源码目录，避免 VitePress 把仓库 README 中的本地文件链接误判为站点路由。
+    srcExclude: ["packages/**"],
     ignoreDeadLinks: [
       "./LICENSE",
       "./index",
