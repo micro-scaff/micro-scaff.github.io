@@ -2,7 +2,7 @@
 # GitHub Pages: https://docs.github.com/zh/pages
 # GitHub Actions: https://docs.github.com/zh/actions
 
-name: Docs
+name: 🚀 部署文档
 
 # 触发条件：
 # - 每次 main 分支收到新的 push 时自动构建并部署文档站点
@@ -35,35 +35,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 拉取仓库代码，后续依赖安装和 docs:build 都基于当前 main 提交执行。
-      - name: Checkout
+      - name: 检出代码
         uses: actions/checkout@v6
 
       # 安装 Node.js 运行时。
       # node-version: 22 使用当前稳定的 Node.js 版本。
       # 这里不启用 cache: npm，因为 setup-node 的 npm 缓存需要 package-lock.json、
       # npm-shrinkwrap.json 或 yarn.lock；本项目选择不提交 package-lock.json。
-      - name: Setup Node.js
+      - name: 配置 Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24
 
       # 不提交 package-lock.json 时不能使用 npm ci。
       # npm install --no-package-lock 会根据 package.json 安装依赖，并避免在 CI 中生成 lockfile。
-      - name: Install dependencies
+      - name: 安装依赖
         run: npm run boot
 
       # 执行 package.json 中的 docs:build。
       # 当前脚本是 vitepress build，默认输出目录为 .vitepress/dist。
-      - name: Build docs
+      - name: 构建文档
         run: npm run docs:build
 
       # 初始化 GitHub Pages 部署环境，并收集 Pages 所需的站点元信息。
-      - name: Setup Pages
+      - name: 配置 GitHub Pages
         uses: actions/configure-pages@v5
 
       # 上传 VitePress 构建产物，后续 deploy job 会发布这个 artifact。
       # 这里必须指向静态文件输出目录，而不是整个仓库。
-      - name: Upload artifact
+      - name: 上传构建产物
         uses: actions/upload-pages-artifact@v4
         with:
           path: .vitepress/dist
@@ -80,13 +80,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # 发布 Pages artifact。成功后站点会通过 https://micro-scaff.github.io/ 访问。
-      - name: Deploy to GitHub Pages
+      - name: 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
       # 只有 deploy-pages 成功后才会执行到这里。
       # 在日志和 GitHub Actions notice 中展示最终访问地址，方便发布后直接点击查看。
-      - name: Show Pages URL
+      - name: 显示 Pages 地址
         run: |
           echo "文档站点已发布到："
           echo "https://micro-scaff.github.io/"
