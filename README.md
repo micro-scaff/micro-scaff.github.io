@@ -28,7 +28,7 @@ git commit -m "feat: register package submodules"
 
 项目展示由 [`.vitepress/projects.ts`](./.vitepress/projects.ts) 统一配置。构建时会读取真实文件目录，递归生成侧边栏，并把 Markdown、JSON、图片等资源复制到 `src/projects/<项目 ID>`。
 
-> `src` 是执行脚本时自动生成的目录，请不要直接修改。源文档应放在 `packages` 下对应的项目仓库中。
+> `src` 和 `public/src/projects` 是执行脚本时自动生成的目录，请不要直接修改。源文档及附件应放在 `packages` 下对应的项目仓库中。
 
 ### 1. 准备项目文档
 
@@ -50,7 +50,7 @@ packages/
             └── 数据库表关系.md
 ```
 
-`docs` 内的目录可以任意嵌套，不需要逐个登记文件。Markdown 会进入侧边栏，JSON、图片等普通文件只会作为资源复制，不会生成菜单项。
+`docs` 内的目录可以任意嵌套，不需要逐个登记文件。Markdown 会进入侧边栏；JSON、PDF、图片等普通文件不会生成菜单项，但会自动同步到 `public/src/projects`，并在正式构建中按原文件名和目录结构发布。
 
 ### 2. 注册项目
 

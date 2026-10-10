@@ -8,6 +8,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
 const outputRoot = path.join(projectRoot, "src/projects");
+/**
+ * VitePress 只会把 public 中的文件按原路径复制到最终 dist。
+ * JSON、PDF 等通过普通链接引用的附件不会自动进入构建产物，因此项目附件
+ * 还需要同步到这里，最终 URL 才能与 Markdown 中生成的链接保持一致。
+ */
+const publicOutputRoot = path.join(projectRoot, "public/src/projects");
 
 function normalizePath(filePath) {
   return filePath.replace(/\\/g, "/");
@@ -170,10 +176,18 @@ function rewriteMarkdown(content, document, project, sourceMap) {
 export default function copyProjectDocs() {
   const resolvedProjects = resolveProjects(projectRoot, projects);
 
+  // 这里只清理脚本自己维护的目录，不影响 favicon、logo 等手写 public 资源。
+  // 每次完整重建可以避免源仓库删除附件后，public 中仍残留旧文件。
+  fs.rmSync(publicOutputRoot, {
+    recursive: true,
+    force: true
+  });
+
   resolvedProjects.forEach(project => {
     const sourceMap = new Map();
     const targetPaths = new Set();
     const projectOutputRoot = path.resolve(outputRoot, project.id);
+    const projectPublicOutputRoot = path.resolve(publicOutputRoot, project.id);
 
     project.files.forEach(file => {
       const sourcePath = path.resolve(projectRoot, file.source);
@@ -212,7 +226,23 @@ export default function copyProjectDocs() {
         return;
       }
 
+      // 保留 src 中的副本，供 Vite 处理 Markdown 的相对图片引用；同时复制到
+      // public，使 JSON、PDF、压缩包等普通链接在生产构建中保留原文件名和路径。
       fs.copyFileSync(sourcePath, targetPath);
+
+      const publicTargetPath = path.resolve(
+        projectPublicOutputRoot,
+        file.target
+      );
+
+      if (!publicTargetPath.startsWith(`${projectPublicOutputRoot}${path.sep}`)) {
+        throw new Error(`项目“${project.text}”的静态资源输出路径越界：${file.target}`);
+      }
+
+      fs.mkdirSync(path.dirname(publicTargetPath), {
+        recursive: true
+      });
+      fs.copyFileSync(sourcePath, publicTargetPath);
     });
   });
 }
