@@ -104,6 +104,11 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 正文图片默认可以点击预览；添加 no-preview 或 data-no-preview 可关闭。 */
+.vp-doc img:not(.no-preview, [data-no-preview]) {
+  cursor: zoom-in;
+}
+
 /**
  * Component: Sidebar
  * --------------------------------------------------------------------------
