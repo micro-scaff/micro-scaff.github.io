@@ -10,6 +10,7 @@ import {
   menuInterviewFiles,
   menuProject
 } from "./menu";
+import { mermaidMarkdownPlugin } from "./markdown/mermaid.ts";
 
 type MenuRules = {
   nav: DefaultTheme.NavItemWithLink;
@@ -64,6 +65,13 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
       "./index",
       /^http:\/\/localhost(?::\d+)?/
     ],
+    markdown: {
+      // 将 ```mermaid 代码块转换为页面内局部引入的 MermaidDiagram 组件。
+      // 具体渲染放在浏览器端执行，避免 Mermaid 访问 DOM 时破坏 SSR 构建。
+      config: markdown => {
+        markdown.use(mermaidMarkdownPlugin);
+      }
+    },
     head: [
       [
         "link",
