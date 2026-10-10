@@ -1,9 +1,19 @@
 [submodule "packages/micro-tools"]
 	path = packages/micro-tools
 	url = https://github.com/micro-scaff/micro-tools.git
+
 [submodule "packages/learn"]
 	path = packages/learn
 	url = https://github.com/Not-have/learn.git
+
 [submodule "packages/interview-files"]
 	path = packages/interview-files
 	url = https://github.com/liyangting/interview-files.git
+
+[submodule "packages/flow-talk-server"]
+	path = packages/flow-talk-server
+	url = https://github.com/micro-scaff/flow-talk-server.git
+
+[submodule "packages/flow-talk-web"]
+	path = packages/flow-talk-web
+	url = https://github.com/micro-scaff/flow-talk-web.git
