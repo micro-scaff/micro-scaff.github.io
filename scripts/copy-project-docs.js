@@ -63,6 +63,29 @@ function createSiteLink(currentTarget, linkedTarget, suffix) {
   return `${encodeURI(relativePath)}${suffix}`;
 }
 
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** 新标签页链接同时添加 rel，避免目标页面获得 opener 引用。 */
+function createNewTabLink(label, href) {
+  return `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+}
+
+/**
+ * 原生 HTML 链接不会经过 VitePress 的 Markdown 路由转换，因此需要显式把
+ * foo.md 转成 foo.html，把目录入口 index.md 转成对应目录。
+ */
+function createRenderedPageLink(href) {
+  return href
+    .replace(/index\.md(?=([?#]|$))/, "")
+    .replace(/\.md(?=([?#]|$))/, ".html");
+}
+
 /**
  * 重写复制后会失效的 Markdown 链接：
  * 1. 已扫描的文档和资源指向新的站点相对位置；
@@ -79,10 +102,16 @@ function rewriteMarkdown(content, document, project, sourceMap) {
       path.resolve(projectRoot, target)
     ])
   );
+  const newTabLinks = new Set(
+    (document.newTabLinks ?? []).map(link => {
+      const { pathname } = splitLink(link);
+      return path.resolve(path.dirname(currentSource), pathname);
+    })
+  );
 
   const rewrittenContent = content.replace(
-    /(!?\[[^\]]*\]\()([^)]+)(\))/g,
-    (match, prefix, link, suffixToken) => {
+    /(!?)\[([^\]]*)\]\(([^)]+)\)/g,
+    (match, imagePrefix, label, link) => {
       const trimmedLink = link.trim();
 
       if (
@@ -100,13 +129,25 @@ function rewriteMarkdown(content, document, project, sourceMap) {
       const linkedTarget = sourceMap.get(aliasedSource);
 
       if (linkedTarget) {
-        return `${prefix}${createSiteLink(currentTarget, linkedTarget, suffix)}${suffixToken}`;
+        const siteLink = createSiteLink(currentTarget, linkedTarget, suffix);
+
+        if (!imagePrefix && newTabLinks.has(resolvedSource)) {
+          return createNewTabLink(label, createRenderedPageLink(siteLink));
+        }
+
+        return `${imagePrefix}[${label}](${siteLink})`;
       }
 
       const repositoryLink = createRepositoryLink(project, resolvedSource);
 
       if (repositoryLink) {
-        return `${prefix}${repositoryLink}${suffix}${suffixToken}`;
+        const href = `${repositoryLink}${suffix}`;
+
+        if (!imagePrefix && newTabLinks.has(resolvedSource)) {
+          return createNewTabLink(label, href);
+        }
+
+        return `${imagePrefix}[${label}](${href})`;
       }
 
       return match;

@@ -36,6 +36,11 @@ export interface ProjectEntryConfig {
   source: string;
   /** 输出位置，相对 src/projects/<project-id>。目录首页建议命名为 index.md。 */
   target: string;
+  /**
+   * 当前 Markdown 中需要在新标签页打开的相对链接。
+   * 路径以当前 source 文件所在目录为基准，必须与源 Markdown 中的地址一致。
+   */
+  newTabLinks?: string[];
 }
 
 export interface ProjectSectionConfig {
@@ -49,6 +54,19 @@ export interface ProjectSectionConfig {
   entry?: ProjectEntryConfig;
   /** 是否默认折叠该分组。 */
   collapsed?: boolean;
+  /**
+   * 自动发现的 Markdown 使用哪个菜单名称：
+   * - heading：优先使用 frontmatter title 或一级标题；
+   * - filename：使用文件名，适合标题较长、侧边栏空间有限的项目。
+   * OVERVIEW.md 无论选择哪种方式都会优先使用正文标题。
+   */
+  menuText?: "heading" | "filename";
+  /**
+   * 是否移除子文档名称中重复的目录前缀。
+   * 默认关闭，确保菜单忠实使用文件名；显式设为 true 时，
+   * “数据库/数据库表关系.md”会显示为“表关系”。
+   */
+  stripDirectoryPrefix?: boolean;
   /**
    * 相对 docsDir 的忽略路径。目录会连同内部文件一起忽略。
    * 示例：["drafts", "internal/方案.md"]。
@@ -89,13 +107,18 @@ const projects: ProjectConfig[] = [
       text: "项目介绍",
       heading: "流言",
       source: "packages/flow-talk-web/README.md",
-      target: "index.md"
+      target: "index.md",
+      newTabLinks: [
+        "../flow-talk-server/docs/OVERVIEW.md",
+        "../flow-talk-server/docs/openapi.json"
+      ]
     },
     sections: [
       {
         text: "Web 客户端",
         docsDir: "packages/flow-talk-web/docs",
-        targetDir: "web"
+        targetDir: "web",
+        menuText: "filename"
       },
       {
         text: "服务端",
@@ -105,7 +128,8 @@ const projects: ProjectConfig[] = [
           target: "server/index.md"
         },
         docsDir: "packages/flow-talk-server/docs",
-        targetDir: "server/docs"
+        targetDir: "server/docs",
+        menuText: "filename"
       }
     ],
     repositories: [

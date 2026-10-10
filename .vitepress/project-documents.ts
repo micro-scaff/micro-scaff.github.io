@@ -13,6 +13,7 @@ export interface ResolvedProjectDocument {
   source: string;
   target: string;
   heading?: string;
+  newTabLinks?: string[];
   order: number;
 }
 
@@ -125,6 +126,22 @@ function createFallbackText(name: string): string {
     .replace(/^(README|index)$/i, "概览");
 }
 
+/**
+ * 移除目录名和子文档标题的重复部分，让深层菜单保持紧凑。
+ * 只处理完整前缀，避免误删标题中间的同名词。
+ */
+function stripDirectoryPrefix(text: string, directoryText: string): string {
+  if (!text.startsWith(directoryText)) {
+    return text;
+  }
+
+  const strippedText = text
+    .slice(directoryText.length)
+    .replace(/^[-—_:：、\s]+/, "");
+
+  return strippedText || text;
+}
+
 function resolveEntry(
   projectRoot: string,
   entry: ProjectEntryConfig
@@ -146,6 +163,7 @@ function resolveEntry(
     source: normalizePath(entry.source),
     target: normalizePath(entry.target),
     heading: entry.heading,
+    newTabLinks: entry.newTabLinks,
     order: metadata.order ?? createDefaultOrder(path.basename(entry.source))
   };
 }
@@ -236,15 +254,25 @@ function scanSection(
         const child = walk(sourcePath, relativePath);
 
         if (child.items.length) {
+          const groupText = createFallbackText(entry.name);
+          const childItems = section.stripDirectoryPrefix === true
+            ? child.items.map(item => item.kind === "document"
+              ? {
+                  ...item,
+                  text: stripDirectoryPrefix(item.text, groupText)
+                }
+              : item)
+            : child.items;
+
           items.push({
             kind: "group",
-            text: createFallbackText(entry.name),
+            text: groupText,
             // 自动发现的子目录默认展开，避免用户误以为目录内文档没有生成。
             // 如果后续需要按目录控制折叠状态，可以再从目录 README 的
             // frontmatter 读取 collapsed 字段，而无需修改菜单生成器。
             collapsed: false,
             order: createDefaultOrder(entry.name),
-            items: child.items
+            items: childItems
           });
         }
 
@@ -276,11 +304,15 @@ function scanSection(
       }
 
       const metadata = readMarkdownMetadata(sourcePath);
+      const useHeading = section.menuText !== "filename"
+        || entry.name.toLowerCase() === "overview.md";
       const document: ResolvedProjectDocument = {
         kind: "document",
-        text: metadata.title
-          ?? metadata.heading
-          ?? createFallbackText(entry.name),
+        text: useHeading
+          ? metadata.title
+            ?? metadata.heading
+            ?? createFallbackText(entry.name)
+          : createFallbackText(entry.name),
         source,
         target,
         order: metadata.order ?? createDefaultOrder(entry.name)

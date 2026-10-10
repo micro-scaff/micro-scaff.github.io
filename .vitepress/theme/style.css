@@ -105,6 +105,39 @@
 }
 
 /**
+ * Component: Sidebar
+ * --------------------------------------------------------------------------
+ * 项目文档允许递归目录，默认主题在三级菜单遇到长标题时容易连续换行，
+ * 导致侧边栏被拉得很高。这里限制弹性子项的最小宽度并使用省略号，
+ * 同时略微压缩深层菜单字号，保持层级清晰且不挤压正文区域。
+ */
+
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem .item,
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem .link,
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem .text {
+  min-width: 0;
+}
+
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem .text {
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
+}
+
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem .caret {
+  flex-shrink: 0;
+}
+
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem.level-3 .text,
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem.level-4 .text,
+body:has(.vp-doc[class*="_src_projects_"]) .VPSidebarItem.level-5 .text {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/**
  * Page: Home
  * -------------------------------------------------------------------------- */
 
