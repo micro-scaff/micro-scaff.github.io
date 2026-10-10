@@ -10,4 +10,4 @@ pnpm-lock.yaml
 .vitepress/cache/
 /src/**
 # 项目附件由 copy:md 从 packages 自动生成，构建时通过 public 原样进入 dist。
-/public/src/projects/**
+/public/projects/**

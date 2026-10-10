@@ -13,7 +13,8 @@ const outputRoot = path.join(projectRoot, "src/projects");
  * JSON、PDF 等通过普通链接引用的附件不会自动进入构建产物，因此项目附件
  * 还需要同步到这里，最终 URL 才能与 Markdown 中生成的链接保持一致。
  */
-const publicOutputRoot = path.join(projectRoot, "public/src/projects");
+const publicOutputRoot = path.join(projectRoot, "public/projects");
+const legacyPublicOutputRoot = path.join(projectRoot, "public/src/projects");
 
 function normalizePath(filePath) {
   return filePath.replace(/\\/g, "/");
@@ -175,6 +176,21 @@ function rewriteMarkdown(content, document, project, sourceMap) {
  */
 export default function copyProjectDocs() {
   const resolvedProjects = resolveProjects(projectRoot, projects);
+
+  // 清理迁移前的 /src/projects 附件，避免旧地址继续进入部署产物。
+  fs.rmSync(legacyPublicOutputRoot, {
+    recursive: true,
+    force: true
+  });
+
+  const legacyPublicParent = path.dirname(legacyPublicOutputRoot);
+
+  if (
+    fs.existsSync(legacyPublicParent)
+    && fs.readdirSync(legacyPublicParent).length === 0
+  ) {
+    fs.rmdirSync(legacyPublicParent);
+  }
 
   // 这里只清理脚本自己维护的目录，不影响 favicon、logo 等手写 public 资源。
   // 每次完整重建可以避免源仓库删除附件后，public 中仍残留旧文件。

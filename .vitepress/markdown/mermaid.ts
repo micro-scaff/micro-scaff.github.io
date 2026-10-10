@@ -1,6 +1,6 @@
 import type MarkdownIt from "markdown-it";
 
-const mermaidComponentPath = "/.vitepress/markdown/MermaidDiagram.vue";
+const mermaidComponentPath = "@docs-config/markdown/MermaidDiagram.vue";
 
 function isMermaidFence(info: string): boolean {
   return info.trim().split(/\s+/, 1)[0].toLowerCase() === "mermaid";

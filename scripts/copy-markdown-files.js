@@ -27,6 +27,14 @@
  * targetFileName:
  * - 普通文件模式下可选，用于把单个复制文件输出为指定文件名。
  */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, "..");
+
 const copyConfigs = [
   {
     outDir: "src/micro-tools",
@@ -60,3 +68,9 @@ import copyProjectDocs from "./copy-project-docs.js";
 
 executeFileCopy(copyConfigs);
 copyProjectDocs();
+
+// 首页源码保留在仓库根目录，copy:md 清空并重建 src 后再复制到内容根目录。
+fs.copyFileSync(
+  path.join(projectRoot, "index.md"),
+  path.join(projectRoot, "src/index.md")
+);

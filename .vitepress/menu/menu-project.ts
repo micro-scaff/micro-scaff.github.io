@@ -27,7 +27,7 @@ function createDocumentLink(projectId: string, target: string): string {
     route = route.replace(/\.md$/, "");
   }
 
-  return `/src/projects/${projectId}/${route}`;
+  return `/projects/${projectId}/${route}`;
 }
 
 /** 递归转换扫描器生成的目录树，目录层数不受限制。 */
@@ -77,7 +77,7 @@ export default function menuProject(): IMenuRules | undefined {
         resolvedProjects[0].id,
         resolvedProjects[0].entry.target
       ),
-      activeMatch: "/src/projects/"
+      activeMatch: "/projects/"
     },
     menu
   };

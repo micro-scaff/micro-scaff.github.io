@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   UserConfig
 } from "vitepress";
+import path from "node:path";
 
 import {
   menuMicroTools,
@@ -57,9 +58,17 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   return defineConfig({
     title: "Micro Scaff",
     description: "Micro Scaff",
-    // packages 中的外部仓库只作为文档源，实际页面由 copy:md 复制到 src。
-    // 排除源码目录，避免 VitePress 把仓库 README 中的本地文件链接误判为站点路由。
-    srcExclude: ["packages/**"],
+    // src 只是文档源码目录，不应出现在最终访问地址中。
+    srcDir: "src",
+    vite: {
+      // srcDir 会改变 VitePress 默认的 public 查找位置，这里继续使用仓库根目录的 public。
+      publicDir: "../public",
+      resolve: {
+        alias: {
+          "@docs-config": path.resolve(import.meta.dirname)
+        }
+      }
+    },
     ignoreDeadLinks: [
       "./LICENSE",
       "./index",

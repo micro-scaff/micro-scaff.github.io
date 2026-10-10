@@ -32,7 +32,7 @@ function removeMarkdownExt(fileName: string): string {
 /**
  * 拼接 VitePress 文档链接。
  *
- * 使用数组统一拼接，避免各处手写 /src/learn/xxx 或 /src/micro-tools/xxx。
+ * 使用数组统一拼接，避免各处手写 /learn/xxx 或 /micro-tools/xxx。
  */
 function createLink(base: string, ...segments: string[]): string {
   return [
@@ -69,8 +69,10 @@ export default async function createDirectoryMenu({
   // sourceDir 是本地文件系统路径，用来读取真实目录。
   const sourceDir = path.resolve(__dirname, "../..", root);
 
-  // base 是 VitePress 路由前缀，用来生成页面链接。
-  const base = `/${root}`;
+  // root 是仓库内的文件路径；src 已配置为 VitePress 的内容根目录，
+  // 因此生成访问地址时需要移除开头的 src/。
+  const routeRoot = root.replace(/^src[\\/]/, "").replace(/\\/g, "/");
+  const base = `/${routeRoot}`;
 
   // 目录不存在时不生成菜单，调用方会自动跳过这个导航。
   if (!fs.existsSync(sourceDir)) {
