@@ -7,7 +7,7 @@
     "copy:md": "rm -fr src && node ./scripts/copy-markdown-files.js",
     "update:packages": "bash scripts/update-packages.sh",
     "boot": "rm -fr packages/ && npm i && npm run update:packages",
-    "docs:dev": "vitepress dev",
+    "docs:dev": "npm run copy:md && vitepress dev",
     "docs:build": "npm run copy:md && vitepress build",
     "docs:preview": "vitepress preview"
   },

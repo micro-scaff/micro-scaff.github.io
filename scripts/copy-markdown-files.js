@@ -56,5 +56,7 @@ const copyConfigs = [
 ];
 
 import { executeFileCopy } from "./utils/index.js";
+import copyProjectDocs from "./copy-project-docs.js";
 
 executeFileCopy(copyConfigs);
+copyProjectDocs();

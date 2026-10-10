@@ -7,7 +7,8 @@ import {
 import {
   menuMicroTools,
   menuLearn,
-  menuInterviewFiles
+  menuInterviewFiles,
+  menuProject
 } from "./menu";
 
 type MenuRules = {
@@ -40,6 +41,7 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   const dev = await menuMicroTools();
   const learn = await menuLearn();
   const interviewFiles = await menuInterviewFiles();
+  const project = menuProject();
 
   const nav: DefaultTheme.NavItem[] = [];
   const sidebar: DefaultTheme.SidebarMulti = {};
@@ -47,7 +49,8 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
   applyMenuRules([
     dev,
     learn,
-    interviewFiles
+    project,
+    interviewFiles,
   ], nav, sidebar);
 
   return defineConfig({
