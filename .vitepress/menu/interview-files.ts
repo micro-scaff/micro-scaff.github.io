@@ -11,7 +11,7 @@ interface IMenuRules {
 export default function menuInterviewFiles(): IMenuRules {
   return {
     nav: {
-      text: "Interview Files",
+      text: "前端学习与面试笔记",
       link: "https://liyangting.github.io/share-files/"
     },
     menu: []
