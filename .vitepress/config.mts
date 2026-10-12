@@ -1,8 +1,8 @@
-import {
-  defineConfig,
+import type {
   DefaultTheme,
   UserConfig
 } from "vitepress";
+import { defineConfig } from "vitepress";
 import path from "node:path";
 
 import {
@@ -10,12 +10,16 @@ import {
   menuLearn,
   menuInterviewFiles,
   menuProject
-} from "./menu";
+} from "./menu/index.ts";
 import { mermaidMarkdownPlugin } from "./markdown/mermaid.ts";
 
 type MenuRules = {
   nav: DefaultTheme.NavItemWithLink;
   menu: DefaultTheme.SidebarItem[];
+};
+
+type ThemeConfig = DefaultTheme.Config & {
+  buildTime: string;
 };
 
 function applyMenuRules(
@@ -39,7 +43,17 @@ function applyMenuRules(
 }
 
 // https://vitepress.dev/reference/site-config
-const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
+const config = async (): Promise<UserConfig<ThemeConfig>> => {
+  const buildTime = new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).format(new Date());
   const dev = await menuMicroTools();
   const learn = await menuLearn();
   const interviewFiles = await menuInterviewFiles();
@@ -55,7 +69,7 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
     interviewFiles,
   ], nav, sidebar);
 
-  return defineConfig({
+  return defineConfig<ThemeConfig>({
     title: "Micro Scaff",
     description: "Micro Scaff",
     // src 只是文档源码目录，不应出现在最终访问地址中。
@@ -113,6 +127,7 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
       ],
     ],
     themeConfig: {
+      buildTime,
       logo: "/favicon.svg",
       nav,
       sidebar,
