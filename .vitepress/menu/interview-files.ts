@@ -1,14 +1,20 @@
-import createDirectoryMenu from "./create-directory-menu";
+import type {
+  DefaultTheme
+} from "vitepress";
 
-/**
- * learn 菜单规则：
- * - src/learn/*.md 生成一级菜单项。
- * - src/learn/<目录>/*.md 生成分组菜单。
- */
-export default function menuInterviewFiles() {
-  return createDirectoryMenu({
-    root: "src/interview-files",
-    text: "Interview Files"
-  });
+interface IMenuRules {
+  nav: DefaultTheme.NavItemWithLink;
+  menu: DefaultTheme.SidebarItem[];
+}
+
+/** Interview Files 使用独立站点，不再生成本地文档菜单。 */
+export default function menuInterviewFiles(): IMenuRules {
+  return {
+    nav: {
+      text: "Interview Files",
+      link: "https://liyangting.github.io/share-files/"
+    },
+    menu: []
+  };
 }
 
