@@ -8,8 +8,8 @@ import path from "node:path";
 import {
   menuMicroTools,
   menuLearn,
-  menuInterviewFiles,
-  menuProject
+  menuProject,
+  menuExternalLink
 } from "./menu/index.ts";
 import { mermaidMarkdownPlugin } from "./markdown/mermaid.ts";
 
@@ -56,8 +56,8 @@ const config = async (): Promise<UserConfig<ThemeConfig>> => {
   }).format(new Date());
   const dev = await menuMicroTools();
   const learn = await menuLearn();
-  const interviewFiles = await menuInterviewFiles();
   const project = menuProject();
+  const externalLink = menuExternalLink();
 
   const nav: DefaultTheme.NavItem[] = [];
   const sidebar: DefaultTheme.SidebarMulti = {};
@@ -65,9 +65,10 @@ const config = async (): Promise<UserConfig<ThemeConfig>> => {
   applyMenuRules([
     dev,
     learn,
-    project,
-    interviewFiles,
+    project
   ], nav, sidebar);
+
+  nav.push(externalLink);
 
   return defineConfig<ThemeConfig>({
     title: "Micro Scaff",

@@ -104,6 +104,11 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 外部链接菜单标题已带外链图标，不再额外展示下拉箭头或移动端展开符号。 */
+.VPNavMenuGroup:has(.external-link-menu-label) :is(.text-icon, .button-icon) {
+  display: none;
+}
+
 /* 正文图片默认可以点击预览；添加 no-preview 或 data-no-preview 可关闭。 */
 .vp-doc img:not(.no-preview, [data-no-preview]) {
   cursor: zoom-in;
