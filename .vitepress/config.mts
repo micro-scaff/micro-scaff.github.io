@@ -68,6 +68,11 @@ const config = async (): Promise<UserConfig<ThemeConfig>> => {
     project
   ], nav, sidebar);
 
+  nav.push({
+    text: "在线编辑",
+    link: "/editor/"
+  });
+
   nav.push(externalLink);
 
   return defineConfig<ThemeConfig>({

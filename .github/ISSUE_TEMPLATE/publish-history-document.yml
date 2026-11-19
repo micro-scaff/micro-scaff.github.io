@@ -1,0 +1,59 @@
+name: 发布历史文档
+description: 将 Markdown 投稿到 Not-have/learn 的历史文档目录
+title: "[文档发布] "
+labels:
+  - document-submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请确认正文不包含密码、Token 或其他隐私信息。提交后，指定人员会直接发布；其他投稿者会收到 Fork 和 Pull Request 指引。
+
+  - type: input
+    id: title
+    attributes:
+      label: 文档标题
+      description: 用于历史文档标题和提交记录。
+      placeholder: 例如：VitePress 使用记录
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: 文档标识
+      description: 可选，只能使用字母、数字和短横线；留空时自动生成。
+      placeholder: vitepress-guide
+
+  - type: input
+    id: tags
+    attributes:
+      label: 标签
+      description: 可选，多个标签使用英文逗号分隔。
+      placeholder: VitePress, Markdown
+
+  - type: textarea
+    id: markdown
+    attributes:
+      label: Markdown 正文
+      description: 从在线编辑器复制后粘贴到这里，并使用 Preview 再检查一次。
+      placeholder: 请粘贴完整 Markdown 正文
+    validations:
+      required: true
+
+  - type: textarea
+    id: images
+    attributes:
+      label: 图片附件
+      description: 仅 Not-have/learn 支持。请把正文使用到的图片逐张粘贴或拖拽到这里。
+      placeholder: 将图片粘贴或拖拽到此处
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我确认内容可以公开发布，且不包含密码、Token 或个人隐私。
+          required: true
+        - label: 我同意系统生成不可覆盖的历史文档，并保留 GitHub 提交记录。
+          required: true

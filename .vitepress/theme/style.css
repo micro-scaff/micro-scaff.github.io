@@ -543,3 +543,17 @@ body:has(.vp-doc[class*="_projects_"]) .VPSidebarItem.level-5 .text {
 .title span {
   display: none !important;
 }
+
+/* 在线编辑页使用完整内容宽度，由页面组件自行控制布局。 */
+.editor-page .VPDoc {
+  padding: 0;
+}
+
+.editor-page .VPDoc .container,
+.editor-page .VPDoc .content,
+.editor-page .VPDoc .content-container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 外部投稿：Fork Not-have/learn
+    url: https://github.com/Not-have/learn/fork
+    about: 非指定发布人员可以 Fork 仓库并通过 Pull Request 投稿。

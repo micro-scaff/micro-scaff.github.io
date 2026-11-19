@@ -11,6 +11,10 @@ on:
   push:
     branches:
       - main
+  # Not-have/learn 发布或合并历史文档后，由其通知工作流触发主站重建。
+  repository_dispatch:
+    types:
+      - docs-published
   workflow_dispatch:
 
 # GitHub Pages 官方部署流程需要这些最小权限：

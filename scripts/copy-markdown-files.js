@@ -74,3 +74,14 @@ fs.copyFileSync(
   path.join(projectRoot, "index.md"),
   path.join(projectRoot, "src/index.md")
 );
+
+// pages 保存手写页面。src 会在每次构建前被清空，因此这里统一复制，
+// 避免在线编辑器等页面被生成流程删除。
+const pagesRoot = path.join(projectRoot, "pages");
+
+if (fs.existsSync(pagesRoot)) {
+  fs.cpSync(pagesRoot, path.join(projectRoot, "src"), {
+    recursive: true,
+    force: true
+  });
+}
