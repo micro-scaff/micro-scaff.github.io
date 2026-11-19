@@ -1,10 +1,6 @@
 # micro-scaff.github.io
 文档
 
-## 技术设计
-
-- [在线 Markdown 编辑与历史文档发布技术方案](./docs/online-markdown-editor-technical-design.md)
-
 ## 更新 packages
 
 执行下面的命令会根据 `.gitmodules` 拉取或更新 `packages` 目录下的仓库：
