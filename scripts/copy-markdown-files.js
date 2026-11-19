@@ -53,7 +53,7 @@ const copyConfigs = [
     outDir: "src/learn",
     entry: "packages/learn",
     copyFiles: true,
-    file: [/\.md$/, /^images\//]
+    file: [/\.md$/, /^images\//, /^history\/images\//]
   },
   {
     outDir: "src/interview-files",

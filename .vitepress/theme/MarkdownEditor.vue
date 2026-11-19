@@ -848,7 +848,7 @@ onBeforeUnmount(() => {
         </span>
         <button class="secondary-button" type="button" :disabled="!isDirty" @click="resetDraft">重置草稿</button>
         <button class="primary-button" type="button" :disabled="!isDirty" @click="openSubmitReview">
-          提交到 GitHub
+          自动发布到 GitHub
         </button>
       </div>
     </header>
@@ -1011,7 +1011,7 @@ onBeforeUnmount(() => {
       <section class="editor-dialog diff-dialog" role="dialog" aria-modal="true" aria-label="提交前核对更改">
         <div class="dialog-heading">
           <div>
-            <small>提交到 GitHub</small>
+            <small>自动发布到 GitHub</small>
             <h2>核对本次更改</h2>
           </div>
           <button type="button" aria-label="关闭" @click="submitReviewOpen = false">×</button>
@@ -1036,13 +1036,14 @@ onBeforeUnmount(() => {
         </div>
         <div class="github-handoff-note">
           <strong>下一步将在 GitHub 完成身份确认</strong>
-          <span>点击后会复制当前 Markdown，并打开文档投稿表单。请把正文粘贴到“Markdown 正文”字段。</span>
+          <span>点击后会复制当前 Markdown，并打开自动发布表单。请把正文粘贴到“Markdown 正文”字段。</span>
+          <span>指定发布人员点击 GitHub 的 Create 后，系统会直接写入 learn/main 并关闭任务，无需创建或合并 PR；只有并发冲突时才转为 PR。</span>
           <span v-if="localImages.length">当前还有 {{ localImages.length }} 张本地图片，请在 GitHub 表单的图片字段中再次粘贴。</span>
           <span v-if="submissionError" class="submission-error">{{ submissionError }}</span>
         </div>
         <div class="dialog-actions">
           <button type="button" class="secondary-button" @click="submitReviewOpen = false">返回编辑</button>
-          <button type="button" class="primary-button" @click="handoffToGitHub">复制正文并前往 GitHub</button>
+          <button type="button" class="primary-button" @click="handoffToGitHub">复制正文并创建自动发布任务</button>
         </div>
       </section>
     </div>

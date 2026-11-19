@@ -1373,10 +1373,16 @@ Bypass list：
 - `Dismiss stale pull request approvals when new commits are pushed`：开启。
 - `Require conversation resolution before merging`：开启。
 - `Require status checks to pass`：开启。
-- 必需检查：外部文档校验工作流对应的检查名称。
+- 必需检查：`历史文档 PR 校验`。
 - `Require linear history`：建议开启，同时在仓库中允许 Squash merge 或 Rebase merge。
 
 启用必需检查前，先合并校验工作流并运行一次测试 PR，让检查名称出现在 GitHub 可选列表中。之后再把它加入 Ruleset 并切换为 `Active`。
+
+当前已在 `Not-have/learn` 本地仓库准备
+`.github/workflows/validate-history-document-pr.yml`。该工作流不检出投稿分支，
+不安装依赖，也不执行 Fork 中的任何脚本；校验完全通过 GitHub API 读取 PR 文件和 Blob，
+工作流权限固定为 `contents: read`。Ruleset `protect-main-and-review-docs` 已创建为
+`Disabled`，应在此工作流合并并成功运行一次后再激活。
 
 Ruleset 的结果是：
 
